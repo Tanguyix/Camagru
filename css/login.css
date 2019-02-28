@@ -1,0 +1,21 @@
+a.login {
+    color:  var(--red);
+}
+
+#bout {
+    position: absolute;
+    left: 450px;
+    top: 450px;
+}
+
+form {
+    position: absolute;
+    top:450px;
+    left:550px;
+}
+
+#resetpw {
+    position: absolute;
+    top: 350px;
+    left: 500px;
+}

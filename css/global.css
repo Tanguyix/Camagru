@@ -1,0 +1,86 @@
+:root {
+    --red: #E03237;
+}
+
+html, body   {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #FAFAFA;
+    overflow: hidden;
+}
+
+a {
+    text-decoration: none;
+    color:black;
+}
+
+a:link {
+    color: black;
+}
+
+a:hover {
+    color: var(--red);
+}
+
+header {
+    height: 110px;
+    width: 100%;
+    background-color: rgb(183, 183, 183);
+}
+
+.foot{
+    height: 20px;
+    text-align: right;
+}
+
+.wrapper {
+    display: inline-block;
+    height: 97%;
+    width: 100%;
+}
+
+.head {
+    padding: 10px;
+    height: 110px;
+    width: 100%;
+    position: absolute;
+    background-color: rgb(183, 183, 183);
+}
+
+.login
+{
+    height: 20px;
+    text-align: center;
+    font-size: 35px;
+    position: absolute;
+    right: 230px;
+    top: 58px;
+}
+
+.montage
+{
+    height: 20px;
+    text-align: center;
+    font-size: 35px;
+    position: absolute;
+    right: 40px;
+    top: 58px;
+}
+
+.logo
+{
+    height: 100%;
+    width: auto;
+    position: relative;
+    background-color: rgb(183, 183, 183);
+}
+
+.line {
+    position: relative;
+    overflow: visible;
+    height: 1px;
+    background-color: #ddd;
+    border: 1px solid #ddd;
+}
