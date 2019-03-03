@@ -3,9 +3,9 @@
     require "utils/auth.php";
     $db = 'camargue_u';
 
-    $DB_DSN = "mysql:host=localhost;dbname=$db;port=3307";
+    $DB_DSN = "mysql:host=localhost;dbname=$db;port=3306";
     $DB_USER = "root";
-    $DB_PASSWORD = "rootroot";
+    $DB_PASSWORD = "root";
 
     //connect to the db
     try {
@@ -23,7 +23,6 @@
         try {
             $sql = "SELECT `email`, `id`
                 FROM `users` WHERE `email` = :email";
-            var_dump($_POST['email']);
             $check = $pdo->prepare($sql);
             $check->execute(array(':email' => $_POST['email']));
             $user = $check->fetch();
@@ -33,9 +32,10 @@
                 $code = md5(uniqid(rand(), true));
                 $sql = "UPDATE `pwreset`
             SET `code` = ?
-            WHERE `id` = ?";
+            WHERE `user_id` = ?";
                 $check = $pdo->prepare($sql);
                 $check->execute(array($code, $user['id']));
+                echo "Unique link to verify account is : http://localhost:8080/modif_pw.php?uid={$user['id']}&code=$code";
         }
     }
 
@@ -47,7 +47,7 @@
                 $sql = "SELECT `verified`
                 FROM `verified` 
                 JOIN `users`
-                  ON `users`.id = `verified`.id
+                  ON `users`.id = `verified`.user_id
                 WHERE `name` = :name";
                 $check = $pdo->prepare($sql);
                 $check->execute(array(':name' => $_POST['login']));
@@ -57,19 +57,17 @@
                 try {
                     $sql = "SELECT `email`, `id`
                 FROM `users` WHERE `name` = :name";
-                    var_dump($_POST['email']);
                     $check = $pdo->prepare($sql);
                     $check->execute(array(':name' => $_POST['login']));
                     $user = $check->fetch();
                 } catch(PDOException $ex) { exit($ex); };
-                var_dump($user);
                 $_SESSION['logged_on_user'] = $_POST['login'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['id'] = $user['id'];
+                header("Location: index.php");
             }
             else
                 echo "Your account has yet to be verified, check your emails";
-            //   header("Location: index.php");
         }
         else {
             echo "Connection failed";
@@ -90,23 +88,26 @@
     <div class="head">
         <a href="index.php"><img class="logo" src="img/Camargue_U.png"></a>
         <a class="montage" href="montage.php">Create</a>
-        <a class="login" href="login.php">Login</a>
+        <a class="login" href="login.php">Sign in</a>
+        <a class="signup" href="create_account.php">Sign up</a>
     </div>
-    <a id = "bout" href = "create_account.php">Create account</a>
-    <form action="login.php" method="post">
-        <p>login</p>
-        <input type="text" name="login" value="" required>
-        <br/>
-        <p>password</p>
-        <input type="password" name="pwd" value="" required>
-        <br/>
-        <input class="send" type="submit" name="submit" value="Login">
-    </form>
-    <form id="resetpw" href="login.php" method="post">
-        <p>email</p>
-        <input type="text" name="email" value="" required>
-        <input class="send" type="submit" name="submit" value="Reset password">
-    </form>
+    <div class="container">
+        <form action="login.php" method="post">
+            <p>Login</p>
+            <input type="text" name="login" value="" required placeholder="Enter login">
+            <br/>
+            <p>Password</p>
+            <input type="password" name="pwd" value="" required placeholder="Enter password">
+            <br/>
+            <input class="send" type="submit" name="submit" value="Sign in">
+        </form>
+        <form id="resetpw" href="login.php" method="post">
+            <p>Forgot your password</p>
+            <input type="text" name="email" value="" required placeholder="Enter your email">
+            <br/>
+            <input class="send" type="submit" name="submit" value="Reset password">
+        </form>
+    </div>
 </div>
 <footer class ="foot">
     <p class="name">© tboissel, 42, 2019</p>

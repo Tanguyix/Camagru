@@ -10,7 +10,7 @@
             $pdo->setAttribute(PDO::ATTR_ERRMODE,  PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $ex) { exit($ex); };
         $sql = "SELECT *
-                    FROM `verified` WHERE `id` = :id";
+                    FROM `verified` WHERE `user_id` = :id";
         $check = $pdo->prepare($sql);
         $check->execute(array(':id' => $_GET['uid']));
         $line = $check->fetch();
@@ -24,16 +24,16 @@
         else {
             $sql = "UPDATE `verified`
             SET `verified` = 1
-            WHERE `id` = ?";
+            WHERE `user_id` = ?";
             $check = $pdo->prepare($sql);
-            $check->execute(array($line['id']));
+            $check->execute(array($line['user_id']));
 
             //log the user that got verified and message to tell him
             try {
                 $sql = "SELECT `name`
                 FROM `users` WHERE `id` = :id";
                 $check = $pdo->prepare($sql);
-                $check->execute(array(':id' => $line['id']));
+                $check->execute(array(':id' => $line['user_id']));
                 $user = $check->fetch();
             } catch(PDOException $ex) { exit($ex); };
             $_SESSION['logged_on_user'] = $user['name'];
@@ -55,8 +55,9 @@
     <div class="wrapper">
         <div class="head">
             <a href="index.php"><img class="logo" src="img/Camargue_U.png"></a>
-        <a class="montage" href="montage.php">Create</a>
-            <a class="login" href="login.php">Login</a>
+            <a class="montage" href="montage.php">Create</a>
+            <a class="login" href="login.php">Sign in</a>
+            <a class="signup" href="create_account.php">Sign up</a>
         </div>
     </div>
     <footer class ="foot">

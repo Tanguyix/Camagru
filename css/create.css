@@ -1,5 +1,7 @@
+a.signup {
+    color:  var(--red);
+}
+
 form {
-    position: absolute;
-    top:450px;
-    left:450px;
+    height: 390px;
 }

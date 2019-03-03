@@ -58,7 +58,7 @@
 
                 //create setting_db
                 $sql = "INSERT INTO `settings` (notif_on, lang)
-                VALUES (false, 'en');";
+                VALUES (true, 'en');";
                 $pdo->prepare($sql)->execute();
 
                 //create pw_reset
@@ -79,7 +79,7 @@
                     $check->execute(array(':name' => $_POST['login']));
                     $user = $check->fetch();
                 } catch(PDOException $ex) { exit($ex); };
-                echo "Unique link to verify account is : http://localhost:8080/pages/verify.php?uid={$user['id']}&code=$code";
+                echo "Unique link to verify account is : http://localhost:8080/verify.php?uid={$user['id']}&code=$code";
             }
         }
     }
@@ -99,9 +99,16 @@
     <div class="head">
         <a href="index.php"><img class="logo" src="img/Camargue_U.png"></a>
         <a class="montage" href="montage.php">Create</a>
-        <a class="login" href="login.php">Login</a>
+        <a class="login" href="login.php">Sign in</a>
+        <a class="signup" href="create_account.php">Sign up</a>
     </div>
-    <form action="create_account.php" method="post">
+    <?php if ($_SESSION['logged_on_user'] != "") { ?>
+            <form id="logout" action="utils/logout.php" method="get">
+                <input class="send" type="submit" name="submit" value="Logout">
+            </form>
+        <?php } ?>
+    <div class="container">
+        <form action="create_account.php" method="post">
         <p>login</p>
         <input type="text" name="login" value="" required>
         <br/>
@@ -114,7 +121,8 @@
         <p>email</p>
         <input type="text" name="email" value="" required>
         <input class="send" type="submit" name="submit" value="Inscription">
-    </form>
+        </form>
+    </div>
 </div>
 <footer class ="foot">
     <p class="name">© tboissel, 42, 2019</p>

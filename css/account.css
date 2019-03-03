@@ -1,17 +1,7 @@
-#first {
-    position: absolute;
-    top:400px;
-    left:450px;
+form {
+    height: 420px;
 }
 
-#second {
-    position: absolute;
-    top:500px;
-    left:450px;
-}
-
-#third {
-    position: absolute;
-    top:700px;
-    left:450px;
+a.login {
+    color:  var(--red);
 }

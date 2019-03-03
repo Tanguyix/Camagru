@@ -11,9 +11,9 @@
     } catch(PDOException $ex) { exit($ex); };
 
     //get infos for the given id
-    $sql = "SELECT users.id, users.pwd, users.salt, pwreset.id, pwreset.code
+    $sql = "SELECT users.id, users.pwd, users.salt, pwreset.user_id, pwreset.code
     FROM `users`
-    JOIN `pwreset` ON users.id=pwreset.id
+    JOIN `pwreset` ON users.id=pwreset.user_id
     WHERE users.id=:id;";
     $check = $pdo->prepare($sql);
     $check->execute(array(':id' => $_GET['uid']));
@@ -32,7 +32,6 @@
             else {
                 $salted_pwd = $_POST['pwd'] . $line['salt'];
                 $salted_pwd = hash("sha512", $salted_pwd);
-                var_dump($salted_pwd);
                 $sql = "UPDATE `users`
                 SET `pwd` = ?
                 WHERE `id` = ?";
@@ -58,16 +57,19 @@
     <div class="head">
         <a href="index.php"><img class="logo" src="img/Camargue_U.png"></a>
         <a class="montage" href="montage.php">Create</a>
-        <a class="login" href="login.php">Login</a>
+        <a class="login" href="login.php">Sign in</a>
+        <a class="signup" href="create_account.php">Sign up</a>
     </div>
-    <form action="modif_pw.php?<?php echo "uid=" . $_GET['uid'] . "&code=" . $_GET['code'] ?>" method="post">
-        <p>password</p>
-        <input type="password" name="pwd" value="" required>
-        <br/>
-        <p>repeat password</p>
-        <input type="password" name="re_pwd" value="" required>
-        <input class="send" type="submit" name="submit" value="Change password">
-    </form>
+    <div class="container">
+        <form action="modif_pw.php?<?php echo "uid=" . $_GET['uid'] . "&code=" . $_GET['code'] ?>" method="post">
+            <p>password</p>
+            <input type="password" name="pwd" value="" required>
+            <br/>
+            <p>repeat password</p>
+            <input type="password" name="re_pwd" value="" required>
+            <input class="send" type="submit" name="submit" value="Change password">
+        </form>
+    </div>
 </div>
 <footer class ="foot">
     <p class="name">© tboissel, 42, 2019</p>

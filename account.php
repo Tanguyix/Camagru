@@ -89,28 +89,35 @@
     <div class="head">
         <a href="index.php"><img class="logo" src="img/Camargue_U.png"></a>
         <a class="montage" href="montage.php">Create</a>
-        <a class="login" href="login.php">Login</a>
+        <?php if ($_SESSION['logged_on_user'] == "") { ?>
+            <a class="login" href="login.php">Sign in</a>
+            <a class="signup" href="create_account.php">Sign up</a>
+        <?php }
+         else { ?>
+            <form id="logout" action="utils/logout.php" method="get">
+                <input class="send" type="submit" name="submit" value="Logout">
+            </form>
+            <a class="login" href="account.php">My account</a>
+        <?php } ?>
     </div>
-    <form id="first" action="account.php" method="post">
-        <p>login</p>
-        <input type="text" name="login" value="<?php echo $_SESSION['logged_on_user']?>" required>
-        <input class="send" type="submit" name="submit" value="Change login">
-    </form>
-    <br/>
-    <form id="second" action="account.php" method="post">
-        <p>Change password</p>
-        <input type="password" name="pwd" value="" required>
+    <div class="container">
+        <form action="account.php" method="post">
+            <p>login</p>
+            <input type="text" name="login" value="<?php echo $_SESSION['logged_on_user']?>" required>
+            <input class="send" type="submit" name="submit" value="Change login">
         <br/>
-        <p>repeat password</p>
-        <input type="password" name="re_pwd" value="" required>
-        <input class="send" type="submit" name="submit" value="Change password">
-    </form>
-    <br/>
-    <form id="third" action="account.php" method="post">
-        <p>email</p>
-        <input type="text" name="email" value="<?php echo $_SESSION['email'] ?>" required>
-        <input class="send" type="submit" name="submit" value="Change email">
-    </form>
+            <p>Change password</p>
+            <input type="password" name="pwd" value="" required>
+            <br/>
+            <p>Repeat password</p>
+            <input type="password" name="re_pwd" value="" required>
+            <input class="send" type="submit" name="submit" value="Change password">
+        <br/>
+            <p>email</p>
+            <input type="text" name="email" value="<?php echo $_SESSION['email'] ?>" required>
+            <input class="send" type="submit" name="submit" value="Change email">
+        </form>
+    </div>
 </div>
 <footer class ="foot">
     <p class="name">© tboissel, 42, 2019</p>

@@ -2,9 +2,9 @@
     //function called by login to check if the user exists and uses the right password
     function auth($login, $pwd) {
         $db = 'camargue_u';
-        $DB_DSN = "mysql:host=localhost;dbname=$db;port=3307";
+        $DB_DSN = "mysql:host=localhost;dbname=$db;port=3306";
         $DB_USER = "root";
-        $DB_PASSWORD = "rootroot";
+        $DB_PASSWORD = "root";
         //connect to the database
         try {
             $pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);

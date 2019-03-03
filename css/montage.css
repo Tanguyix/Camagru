@@ -1,3 +1,40 @@
 a.montage {
      color:  var(--red);
- }
+}
+
+.photo {
+    position: absolute;
+    height: 600px;
+    width: 700px;
+    top: 190px;
+    left: 150px;
+    text-align: center;
+}
+
+.camera {
+    display: inline-block;
+    position: relative;
+    height: 450px;
+    width: 700px;
+    background-color: #666;
+    border: 1px dotted black;
+}
+
+.stickers {
+    display: inline-block;
+    position: relative;
+    height: 150px;
+    width: 700px;
+    border: 1px solid black;
+}
+
+#videoElement {
+    width: 700px;
+    height: 450px;
+    background-color: #666;
+}
+
+#uploaded {
+    max-width: 700px;
+    max-height: 450px;
+}
