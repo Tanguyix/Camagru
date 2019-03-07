@@ -8,7 +8,7 @@
         } catch(PDOException $ex) { exit($ex); };
 
     //get all the photos infos
-    $sql = "SELECT photos.user_id, photos.image, photos.legend, users.id, users.name
+    $sql = "SELECT photos.user_id, photos.id AS pid, photos.image, photos.legend, users.id, users.name
     FROM photos
     JOIN users ON photos.user_id=users.id
     WHERE users.id < 10000;";
@@ -43,11 +43,36 @@
             <a class="login" href="account.php">My account</a>
         <?php } ?>
         </div>
-        <?php foreach ($photos as $pic) {?>
-            <div> 
-                <p class="creator"> <?php echo $pic['name']; ?> </p>
-                <img class="photos" src="<?php echo "pictures/" . $pic['image']; ?>"> </div>
-        <?php } ?>
+        <div class="gallery">
+            <?php foreach ($photos as $pic) { ?>
+                <div class="post">
+                    <p class="creator"> <?php echo $pic['name']; ?> </p>
+                    <img class="photos" src="<?php echo "pictures/" . $pic['image']; ?>">
+                    <img class="heart" src="img/black_heart.png">
+                    <div class="comment">
+                        <form class="comment_form" method="post" action="utils/comment.php">
+                            <input type="text" name="comment" value="" required placeholder="Comment here">
+                            <input class="hidden" type="text" name="id" value="<?php echo $pic['pid'];?>" required>
+                            <input class="send" type="submit" name="submit" value="Comment">
+                        </form>
+                        <div class="actual_comments">
+                            <?php
+                            $sql = "SELECT comments.comment, comments.user_id, comments.photos_id AS pid, users.id, users.name
+                            FROM `comments`
+                            JOIN users ON comments.user_id=users.id
+                            WHERE comments.photos_id = ?;";
+                            $check = $pdo->prepare($sql);
+                            $check->execute(array($pic['pid']));
+                            $coms = $check->fetchAll();
+                            foreach ($coms as $com) {
+                            ?> <p> <?php echo $com['name'] . " : " . $com['comment'] ;?></p>
+                            <?php }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
     </div>
     <footer class ="foot">
         <p class="name">© tboissel, 42, 2019</p>

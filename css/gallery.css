@@ -1,4 +1,44 @@
 .photos {
-    max-width: 700px;
-    max-height: 450px;
+    max-width: 600px;
+    max-height: 380px;
+    border: 1px solid black;
+}
+
+.post {
+    margin: 20px;
+    padding:20px;
+    height: 720px;
+    width: 620px;
+    border: 1px solid black;
+    border-radius: 3%;
+}
+
+.gallery {
+    height: 100%;
+    width: 100%;
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.heart {
+    background-color: transparent;
+    position: relative;
+    top:50px;
+    height: 25px;
+    width: auto;
+}
+
+.comment_form {
+    height: 50px;
+    width: 200px;
+}
+
+.actual_comments {
+    height: 200px;
+    width: 600px;
+    overflow: scroll;
 }

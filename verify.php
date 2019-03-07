@@ -30,13 +30,15 @@
 
             //log the user that got verified and message to tell him
             try {
-                $sql = "SELECT `name`
+                $sql = "SELECT `name`, `email`, `id`
                 FROM `users` WHERE `id` = :id";
                 $check = $pdo->prepare($sql);
                 $check->execute(array(':id' => $line['user_id']));
                 $user = $check->fetch();
             } catch(PDOException $ex) { exit($ex); };
             $_SESSION['logged_on_user'] = $user['name'];
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['id'] = $user['id'];
             echo "Welcome " . $_SESSION['logged_on_user'] . ", your account has been successfully verified";
         }
     }

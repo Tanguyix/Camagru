@@ -12,6 +12,7 @@ a.montage {
 }
 
 .camera {
+    overflow: hidden;
     display: inline-block;
     position: relative;
     height: 450px;
@@ -28,7 +29,22 @@ a.montage {
     border: 1px solid black;
 }
 
+.sticked {
+    top: 45px;
+    left:200px;
+    position: absolute;
+    width: 300px;
+    height: auto;
+}
+
+.stick {
+    max-height: 140px;
+    max-width: 100px;
+}
+
 #videoElement {
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
     width: 700px;
     height: 450px;
     background-color: #666;
@@ -38,3 +54,17 @@ a.montage {
     max-width: 700px;
     max-height: 450px;
 }
+
+#taken {
+    max-width: 700px;
+    max-height: 450px;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
+
+
+.test {
+    position: absolute;
+    top: 10px;
+}
+

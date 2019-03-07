@@ -9,7 +9,10 @@ html, body   {
     height: 100%;
     width: 100%;
     background-color: #FAFAFA;
-    overflow: hidden;
+}
+
+body {
+    overflow: scroll;
 }
 
 a {
@@ -17,6 +20,9 @@ a {
     color:black;
 }
 
+.hidden {
+    display: none;
+}
 
 .container {
     margin-top: 20vh;
@@ -71,6 +77,7 @@ header {
     width: 100%;
     position: absolute;
     background-color: rgb(183, 183, 183);
+    z-index: 1;
 }
 
 .signup

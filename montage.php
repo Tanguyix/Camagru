@@ -2,6 +2,7 @@
     session_start();
     if ($_SESSION['logged_on_user'] == '')
         header("Location: login.php");
+    $stickers = scandir("stickers");
 ?>
 <HTML>
 <HEAD>
@@ -35,11 +36,35 @@
         ?>  <img id="uploaded" src="pictures/<?php echo $_GET['name'];?>">
     <?php } else { ?>
           <video autoplay="true" id="videoElement"></video>
+        <canvas class="mycanva"></canvas>
+        <img id="taken">
+        <button class="test" onclick="take_pic()">Take pic</button>
     <?php } ?>
+            <img class="sticked">
         </div>
         <div class="stickers">
+            <?php foreach ($stickers as $stick) {
+                if ($stick == "." || $stick == "..")
+                    continue;
+                else {
+                ?> <img class="stick", src="stickers/<?php echo $stick;?>">
+                <?php }
+                } ?>
+            <div class="arrow_keys">
+                <button id="up" onclick="mv_sticker(this.id)">↑</button>
+                <button id="down" onclick="mv_sticker(this.id)">↓</button>
+                <button id="right" onclick="mv_sticker(this.id)">→</button>
+                <button id="left" onclick="mv_sticker(this.id)">←</button>
+                <button id="plus" onclick="size_sticker(this.id)">+</button>
+                <button id="minus" onclick="size_sticker(this.id)">-</button>
+            </div>
             <form action="/utils/post.php" method="post">
-            <input type="submit" value="<?php echo $_GET['name']; ?>" name="submit">
+                <input type="submit" value="<?php echo $_GET['name']; ?>" name="submit">
+            </form>
+            <form action="/utils/stick.php" method="post">
+                <input type="text" name="sticker" value="camagrue.png">
+                <input type="file" name="pic" value="Blason_Camargue.png">
+                <input type="submit" value="Stick" name="submit">
             </form>
         </div>
         <form action="utils/upload.php" method="post" enctype="multipart/form-data">
