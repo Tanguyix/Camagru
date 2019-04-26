@@ -1,8 +1,8 @@
 <?php
-    require 'config/database.php';
+    require 'config/setup.php';
     session_start();
-    if (!isset($_GET['uid']) || $_GET['uid'] == 0 || !isset($_GET['code']) || $_GET['code'] == '')
-        echo "link is broken";
+    if (!isset($_GET['uid']) || $_GET['uid'] == 0 || !isset($_GET['code']) || $_GET['code'] == '') {}
+
     else {
         //connect to DB
         try {
@@ -15,21 +15,23 @@
         $check->execute(array(':id' => $_GET['uid']));
         $line = $check->fetch();
         if ($line === false) {
-            echo "Error, user doesn't exist";
+            header("Location: verify.php?error=broken_link");
+            exit;
         }
         //check if code is right and then change verified status
         if ($line['code'] != $_GET['code']) {
-            echo "Verfication failed";
+            header("Location: verify.php?error=broken_link");
+            exit;
         }
         else {
-            $sql = "UPDATE `verified`
-            SET `verified` = 1
-            WHERE `user_id` = ?";
-            $check = $pdo->prepare($sql);
-            $check->execute(array($line['user_id']));
-
-            //log the user that got verified and message to tell him
             try {
+                $sql = "UPDATE `verified`
+                SET `verified` = 1
+                WHERE `user_id` = ?";
+                $check = $pdo->prepare($sql);
+                $check->execute(array($line['user_id']));
+
+                //log the user that got verified
                 $sql = "SELECT `name`, `email`, `id`
                 FROM `users` WHERE `id` = :id";
                 $check = $pdo->prepare($sql);
@@ -39,12 +41,13 @@
             $_SESSION['logged_on_user'] = $user['name'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['id'] = $user['id'];
-            echo "Welcome " . $_SESSION['logged_on_user'] . ", your account has been successfully verified";
+            header("Location: index.php?success=welcome");
         }
     }
 ?>
 <HTML>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="css/global.css">
 <link rel="icon" type="image/png" href="img/Blason_Camargue.png">
 
@@ -57,13 +60,16 @@
     <div class="wrapper">
         <div class="head">
             <a href="index.php"><img class="logo" src="img/Camargue_U.png"></a>
-            <a class="montage" href="montage.php">Create</a>
+            <a class="montage" href="montage.php">Post</a>
             <a class="login" href="login.php">Sign in</a>
             <a class="signup" href="create_account.php">Sign up</a>
+            <a class="leaderboard" href="leaderboard.php?order=alpha">Leaderboard</a>
+            <?php if (isset ($_GET['error']) && $_GET['error'] == "broken_link") {?>
+                <div class="error">
+                    <p class="error_text">Error : The link to modify your account is broken, please contact a webmaster</p>
+                </div>
+            <?php }?>
         </div>
     </div>
-    <footer class ="foot">
-        <p class="name">© tboissel, 42, 2019</p>
-    </footer>
 </BODY>
 </HTML>

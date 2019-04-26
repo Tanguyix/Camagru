@@ -12,9 +12,10 @@
         } catch(PDOException $ex) { exit($ex); };
 
         //get the 3 needed infos from database
+
         try {
             $sql = "SELECT `name`, `pwd`, `salt`
-                FROM `users` WHERE `name` = :name";
+            FROM `users` WHERE `name` = :name";
             $check = $pdo->prepare($sql);
             $check->execute(array(':name' => $login));
             $user = $check->fetch();

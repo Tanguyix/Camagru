@@ -1,7 +1,20 @@
 form {
-    height: 420px;
+    height: 880px;
+    width: 300px;
 }
 
 a.login {
     color:  var(--red);
+}
+
+#change_pic {
+    margin-top: 10px;
+}
+
+.container {
+    margin-top: 100px;
+}
+
+.error {
+    top: -80px;
 }

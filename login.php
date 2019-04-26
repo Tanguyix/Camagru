@@ -1,11 +1,7 @@
 <?php
     session_start();
+    require 'config/setup.php';
     require "utils/auth.php";
-    $db = 'camargue_u';
-
-    $DB_DSN = "mysql:host=localhost;dbname=$db;port=3307";
-    $DB_USER = "root";
-    $DB_PASSWORD = "rootroot";
 
     //connect to the db
     try {
@@ -21,12 +17,11 @@
     if (isset($_POST['submit']) && $_POST['submit'] == "Reset password") {
         //check if email exists in database
         try {
-            $sql = "SELECT `email`, `id`
+            $sql = "SELECT `email`, `id`, `name`
                 FROM `users` WHERE `email` = :email";
             $check = $pdo->prepare($sql);
             $check->execute(array(':email' => $_POST['email']));
             $user = $check->fetch();
-        } catch(PDOException $ex) { exit($ex); };
         //if user email exists, create unique code and associate it with the right id in resetpw table
         if ($user !== false) {
                 $code = md5(uniqid(rand(), true));
@@ -35,8 +30,14 @@
             WHERE `user_id` = ?";
                 $check = $pdo->prepare($sql);
                 $check->execute(array($code, $user['id']));
-                echo "Unique link to verify account is : http://localhost:8080/modif_pw.php?uid={$user['id']}&code=$code";
-        }
+
+                require "emails/pwd.php";
+                $headers = "Content-Type: text/html; charset=UTF-8\r\n";
+                mail($user['email'], "Modify your password on Camargue'u", $message, $headers);
+             }
+        } catch(PDOException $ex) { exit($ex); };
+        header("Location: login.php?success=ok");
+        exit;
     }
 
     //actual login
@@ -64,19 +65,25 @@
                 $_SESSION['logged_on_user'] = $_POST['login'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['id'] = $user['id'];
-                header("Location: index.php");
+                if (isset($_GET['redirect']) && $_GET['redirect'] == "montage") {
+                    header("Location: montage.php");
+                }
+                else {
+                    header("Location: index.php");
+                }
             }
             else
-                echo "Your account has yet to be verified, check your emails";
+                header("Location: login.php?error=account_not_verif");
         }
         else {
-            echo "Connection failed";
+            header("Location: login.php?error=connection_failed");
         }
     }
 ?>
 <HTML>
 <HEAD>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/login.css">
     <link rel="icon" type="image/png" href="img/Blason_Camargue.png">
@@ -87,30 +94,42 @@
 <div class="wrapper">
     <div class="head">
         <a href="index.php"><img class="logo" src="img/Camargue_U.png"></a>
-        <a class="montage" href="montage.php">Create</a>
+        <a class="montage" href="montage.php">Post</a>
         <a class="login" href="login.php">Sign in</a>
         <a class="signup" href="create_account.php">Sign up</a>
+        <a class="leaderboard" href="leaderboard.php?order=alpha">Leaderboard</a>
     </div>
     <div class="container">
-        <form action="login.php" method="post">
-            <p>Login</p>
-            <input type="text" name="login" value="" required placeholder="Enter login">
-            <br/>
-            <p>Password</p>
-            <input type="password" name="pwd" value="" required placeholder="Enter password">
-            <br/>
-            <input class="send" type="submit" name="submit" value="Sign in">
+        <form action="login.php<?php echo ((isset($_GET['redirect']) && $_GET['redirect'] == "montage") ? "?redirect=montage" : "");?>" method="post">
+            <h2>Log in</h2>
+                <input class="form-text" type="text" name="login" value="" required placeholder="Enter login">
+                <br>
+                <input class="form-text" type="password" name="pwd" value="" required placeholder="Enter password">
+                <br>
+                <input class="send" type="submit" name="submit" value="Sign in">
         </form>
         <form id="resetpw" href="login.php" method="post">
-            <p>Forgot your password</p>
-            <input type="text" name="email" value="" required placeholder="Enter your email">
+            <h2>Forgot your password</h2>
+            <input class="form-text" type="text" name="email" value="" required placeholder="Enter your email">
             <br/>
             <input class="send" type="submit" name="submit" value="Reset password">
         </form>
     </div>
+    <?php if (isset ($_GET['error']) && $_GET['error'] == "account_not_verif") {?>
+        <div class="error">
+            <p class="error_text">Error : Your account has yet to be verified, please check your emails</p>
+        </div>
+    <?php }
+    else if (isset ($_GET['error']) && $_GET['error'] == "connection_failed") {?>
+        <div class="error">
+            <p class="error_text">Error : Connection failed. Please check again your login and password</p>
+        </div>
+    <?php }?>
+    <?php if (isset ($_GET['success']) && $_GET['success'] == "ok") {?>
+        <div class="success">
+            <p class="error_text">Your demand has been received, please check your email to reset your password</p>
+        </div>
+    <?php }?>
 </div>
-<footer class ="foot">
-    <p class="name">© tboissel, 42, 2019</p>
-</footer>
 </BODY>
 </HTML>

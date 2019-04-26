@@ -1,44 +1,139 @@
 .photos {
-    max-width: 600px;
-    max-height: 380px;
+    max-width: calc(100% - 2px);
+    height: auto;
+    max-height: 390px;
     border: 1px solid black;
+}
+
+a img {
+    vertical-align: middle;
 }
 
 .post {
-    margin: 20px;
-    padding:20px;
-    height: 720px;
-    width: 620px;
-    border: 1px solid black;
-    border-radius: 3%;
+    background-color: white;
+    text-align: left;
+    position: relative;
+    margin: 35px;
+    margin-bottom: 70px;
+    height: 740px;
+    width:520px;
+    border: 1px solid rgb(213, 234, 254);
+    border-radius: 8px;
+    display: grid;
+}
+
+.post:hover {
+    box-shadow: 4px 4px 6px rgb(213, 234, 254);
+}
+
+.legend {
+    font-style: italic;
 }
 
 .gallery {
-    height: 100%;
-    width: 100%;
-    margin: 20px;
-    padding: 20px;
+    position: relative;
+    top: 60px;
+    margin: 0;
+    min-height: 100%;
+    min-width: 100%;
+    padding: 0;
     display: flex;
     flex-direction: row;
     text-align: center;
     flex-wrap: wrap;
 }
 
+.nb_likes {
+    margin: 0;
+    position: absolute;
+    top:19px;
+    right: 60px;
+    font-size: 20px;
+}
+
 .heart {
     background-color: transparent;
-    position: relative;
-    top:50px;
+    position: absolute;
+    top:19px;
     height: 25px;
     width: auto;
+    right: 10px;
+    cursor: pointer;
+}
+
+.comment {
+    text-align: center;
+    width: 520px;
 }
 
 .comment_form {
-    height: 50px;
-    width: 200px;
+    height: 150px;
+    width: 495px;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
 }
 
 .actual_comments {
-    height: 200px;
-    width: 600px;
-    overflow: scroll;
+    height: 175px;
+    width: 510px;
+    overflow-y: auto;
+    text-align: left;
+    padding: 3px;
+    margin: 1px;
+}
+
+.creator {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+    width: 50%;
+}
+
+#cont {margin: 4px;}
+
+#cont p { display: inline;}
+
+#commentator {
+    color: rgb(141, 178, 200)
+}
+
+.combox {
+    width: 520px;
+    font-size: 15px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid rgb(213, 234, 254);
+    border-top: 1px solid rgb(213, 234, 254);
+}
+
+.commentajax {
+    background-color: rgb(213, 234, 254);
+    border: none;
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-size: 1em;
+    width: 120px;
+    border-radius: 20px;
+}
+
+.commentajax:hover {
+    box-shadow: 1px 1px 1px rgb(213, 234, 254);
+}
+
+.prof_pic {
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 100%;
+    vertical-align: center;
+}
+
+.centpic {
+    text-align: center;
+    background-color: transparent;
 }

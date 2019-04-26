@@ -29,7 +29,8 @@
             name VARCHAR(20),
             email VARCHAR(64),
             pwd VARCHAR(128),
-            salt VARCHAR(20)
+            salt VARCHAR(20),
+            profile_pic VARCHAR(42)
         );";
         $pdo->prepare($sql)->execute();
     } catch(PDOException $ex) { exit($ex); };
@@ -50,8 +51,7 @@
         $sql = "CREATE TABLE IF NOT EXISTS `settings`
                 (
                     user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                    notif_on boolean,
-                    lang varchar(2)
+                    notif_on boolean
                 );";
         $pdo->prepare($sql)->execute();
     } catch(PDOException $ex) { exit($ex); };

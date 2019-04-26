@@ -1,0 +1,51 @@
+.minipp {
+    height: 45px;
+    width: auto;
+}
+
+th, th a {
+    font-family: Futura !important;
+    font-weight: lighter;
+}
+
+.leaderboard_wrap {
+    height: 90%;
+    width: 100%;
+    top: 50px;
+    position: absolute;
+    text-align: center;
+}
+
+.lb {
+    margin: 50px auto;
+}
+
+table{border-collapse:collapse;}
+
+table{
+    padding: 5px;
+}
+
+th {
+    width: 170px;
+    padding: 5px;
+}
+
+tr:nth-child(even) {background: rgb(213, 234, 254)}
+tr:nth-child(odd) {background: transparent}
+tr:nth-child(1) {
+    height: 55px;
+    background-color: rgb(74, 103, 113);
+}
+
+tr:nth-child(1) th, tr:nth-child(1) a{
+    color: rgb(213, 234, 254);
+}
+
+.selected {
+    color:  rgb(208, 97, 65)  !important;
+}
+
+a.leaderboard {
+    color:  var(--red);
+}

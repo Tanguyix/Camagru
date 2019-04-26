@@ -1,0 +1,40 @@
+.infos {
+    margin: 0px auto;
+    text-align: center;
+    height: 500px;
+    width: 400px;
+    position: relative;
+    top: 90px;
+    border: 1px black solid;
+    background-color: rgb(213, 234, 254);
+    border-radius: 6px;
+}
+
+
+.gallery {
+    margin: 70px auto;
+}
+
+.center {
+    width: 100%;
+    min-height: 100%;
+    position: relative;
+    text-align: center;
+}
+
+#bigger_pic {
+    margin: 10px;
+    width: 380px;
+    height: auto;
+}
+
+p {
+    font-size: 1em;
+}
+
+
+.post {
+    height: 390px;
+    width: auto;
+    border: 0;
+}
